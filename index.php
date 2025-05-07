@@ -166,6 +166,23 @@ foreach ($schedules->fetch_all(MYSQLI_ASSOC) as $row) {
 if (isset($conn)) $conn->close();
 ?>
 <script>
+document.addEventListener("DOMContentLoaded", function() {
+    function setDefaultTime(inputId, defaultTime) {
+        let inputField = document.getElementById(inputId);
+        inputField.addEventListener("focus", function() {
+            let currentValue = inputField.value;
+            if (!currentValue) {
+                let now = new Date();
+                let formattedDate = now.toISOString().slice(0, 10); // Preserve the current date
+                inputField.value = formattedDate + "T" + defaultTime;
+            }
+        });
+    }
+
+    // Set default time for start and end fields
+    setDefaultTime("start_datetime", "04:30"); // 4:30 AM
+    setDefaultTime("end_datetime", "19:30");   // 7:30 PM (24-hour format)
+});
     var scheds = <?= json_encode($sched_res, JSON_HEX_QUOT | JSON_HEX_TAG) ?>;
 </script>
 
