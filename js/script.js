@@ -32,13 +32,10 @@ $(function () {
         eventClick: function(info) {
             const _details = $("#event-details-modal");
             const id = info.event.id;
-        
+    
             if (scheds[id]) {
                 _details.find("#title").text(scheds[id].title);
-                
-                // Ensure newlines are displayed correctly
-                _details.find("#description").html(scheds[id].description.replace(/\n/g, "<br>"));  
-        
+                _details.find("#description").html(scheds[id].description.replace(/\n/g, "<br>"));
                 _details.find("#start").text(scheds[id].sdate);
                 _details.find("#end").text(scheds[id].edate);
                 _details.find("#edit,#delete").attr("data-id", id);
@@ -48,9 +45,18 @@ $(function () {
             }
         },
         editable: true,
+    
+        // Ensure only the title is shown without the time
+        eventContent: function(info) {
+            let startTime = info.event.start.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: true });
+            return { html: `<div style="font-size: 12px; font-weight: normal; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${info.event.title} (${startTime})</div>` };
+        }
+        
+        
     });
-
+    
     calendar.render();
+    
 
     // Reset form listener
     $("#schedule-form").on("reset", function () {

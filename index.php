@@ -166,6 +166,7 @@ foreach ($schedules->fetch_all(MYSQLI_ASSOC) as $row) {
 if (isset($conn)) $conn->close();
 ?>
 <script>
+    
 document.addEventListener("DOMContentLoaded", function() {
     function setDefaultTime(inputId, defaultTime) {
         let inputField = document.getElementById(inputId);
